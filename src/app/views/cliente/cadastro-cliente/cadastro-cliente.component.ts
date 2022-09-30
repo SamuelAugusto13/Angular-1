@@ -9,8 +9,6 @@ import { ClienteService } from 'src/app/services/cliente.service';
   styleUrls: ['./cadastro-cliente.component.css']
 })
 export class CadastroClienteComponent implements OnInit {
-  nomeCliente = "";
-  emailCliente = "";
   cliente: Cliente = new Cliente();
   
   constructor(private http: HttpClient, private clienteService: ClienteService) {
@@ -26,12 +24,14 @@ export class CadastroClienteComponent implements OnInit {
       }
     );
   }
-  salvar() {
-    console.log(this.cliente);
-  }
 
   salvarCliente() {
-    console.log("Salvei: " + this.nomeCliente)
+    const c = this.cliente
+    
+    let observable = this.clienteService.post(c);
+    observable.subscribe(s => {
+      console.log("Salvando novo cliente: ", s)
+    })
   }
 
   lerClientes(){
@@ -56,17 +56,7 @@ export class CadastroClienteComponent implements OnInit {
   }
 
   novoCliente() {
-    const c = new Cliente();
-    c.nome = "Mary del Priori";
-    c.cpf = "22222222";
-    c.cep = "01001000";
-    c.endereco = "Praça da Sé";
-    c.id = "";
     
-    let observable = this.clienteService.post(c);
-    observable.subscribe(s => {
-      console.log("Criando novo cliente: ", s)
-    })
   }
 
   alteraCliente() {

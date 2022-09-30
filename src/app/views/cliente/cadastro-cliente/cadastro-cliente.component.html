@@ -1,31 +1,34 @@
 <div>
     <form>
       <label for="nome">Nome: </label>
-      <input type="text" name="nome" [(ngModel)]="cliente.nome"> <br>
+      <input type="text" id="nomecliente" name="nome" [(ngModel)]="cliente.nome"> <br>
   
       <label for="cpf">CPF: </label>
-      <input type="text" name="cpf" [(ngModel)]="cliente.cpf"> <br>
+      <input type="text" id="cpfcliente" name="cpf" [(ngModel)]="cliente.cpf"> <br>
   
       <label for="cep">CEP: </label>
-      <input type="text" name="cep" [(ngModel)]="cliente.cep" (blur)="VerificaCEP()"> <br>
+      <input type="text" id="cepcliente" name="cep" [(ngModel)]="cliente.cep" (blur)="VerificaCEP()"> <br>
   
       <label for="logradouro">Logradouro: </label>
-      <input type="text" name="logradouro" [(ngModel)]="cliente.endereco"> <br>
+      <input type="text" id="enderecocliente" name="logradouro" [(ngModel)]="cliente.endereco"> <br>
   
       <div *ngIf="!cliente.CPFValido()">
         CPF Inválido
       </div>
   
       <div>
-        <button type="button" (click)="salvar()" value="Salvar" [disabled]="!cliente.CPFValido()">Salvar</button>
+        <button type="button" (click)="salvarCliente()" value="Salvar" [disabled]="!cliente.CPFValido()">Salvar</button>
       </div>
 
-      <div>
+    </form>
+  </div>
+
+  <!-- <div>
         <button type="button" (click)="lerClientes()" value="Retorna Clientes">Retorna Clientes</button>
       </div>
 
       <div>
-        <!-- <input type="text" [(ngModel)]="cliente.id"> -->
+        
         <button type="button" (click)="lerCliente('-NCwjKLy9NLcMVnH-umf')" value="Retorna um Cliente">Retorna um Cliente</button>
       </div>
 
@@ -39,7 +42,4 @@
 
       <div>
         <button type="button" (click)="excluirCliente()" value="Deletar um Cliente">Deletar um Cliente</button>
-      </div>
-  
-    </form>
-  </div>
+      </div> -->

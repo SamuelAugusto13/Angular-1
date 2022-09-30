@@ -1,6 +1,14 @@
 <div class="content" role="main">
   <h1>Cadastro de Cliente</h1>
 
+  <h2>Listagem de Clientes</h2>
+
+  <div class="row">
+    <div *ngFor="let cliente of listaCliente">
+      {{cliente.nome}} | {{cliente.cpf}} | {{cliente.cep}}
+    </div>
+  </div>
+
   <button type="button" routerLink="/novo-cadastro-cliente">Abre um novo Cadastro</button>
 </div><br>
 
