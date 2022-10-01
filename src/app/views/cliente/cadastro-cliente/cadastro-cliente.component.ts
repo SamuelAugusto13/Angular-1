@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Cliente } from 'src/app/models/cliente';
 import { ClienteService } from 'src/app/services/cliente.service';
 
@@ -8,13 +9,29 @@ import { ClienteService } from 'src/app/services/cliente.service';
   templateUrl: './cadastro-cliente.component.html',
   styleUrls: ['./cadastro-cliente.component.css']
 })
-export class CadastroClienteComponent implements OnInit {
+export class CadastroClienteComponent implements OnInit, OnDestroy {
   cliente: Cliente = new Cliente();
+  nome: string = "";
+  sub: any;
+  id: string = "";
+  titulo = "Cadastra novo Cliente"
   
-  constructor(private http: HttpClient, private clienteService: ClienteService) {
+  constructor(private http: HttpClient, private clienteService: ClienteService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.sub = this.route.params.subscribe(params => {
+      this.id = params["id"]
+      console.log("Id: ", this.id);
+      if (this.id) {
+        this.titulo = `Altera o cliente de id ${this.id}`;
+        this.lerCliente(this.id);
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   VerificaCEP() {
@@ -26,24 +43,24 @@ export class CadastroClienteComponent implements OnInit {
   }
 
   salvarCliente() {
-    const c = this.cliente
-    
-    let observable = this.clienteService.post(c);
+    if (this.id) {
+      this.salvaEdicaoCliente();
+    } else {
+      this.salvaNovoCliente();
+    }
+  }
+
+  salvaEdicaoCliente(){
+    let observable = this.clienteService.put(this.id, this.cliente);
     observable.subscribe(s => {
-      console.log("Salvando novo cliente: ", s)
+      console.log("Alterando o cliente: ", s)
     })
   }
 
-  lerClientes(){
-    let observable = this.clienteService.getAll();
-
-    observable.subscribe(listaCliente => {
-      const entries = Object.entries(listaCliente)
-      console.log(listaCliente);
-
-      entries.forEach(entry => {
-        console.log(entry)
-      })
+  salvaNovoCliente() {
+    let observable = this.clienteService.post(this.cliente);
+    observable.subscribe(s => {
+      console.log("Salvando novo cliente: ", s)
     })
   }
 
@@ -51,33 +68,10 @@ export class CadastroClienteComponent implements OnInit {
     let observable = this.clienteService.get(id);
 
     observable.subscribe(cliente => {
-      console.log("Apenas um cliente: ", cliente)
+      console.log("Cliente do banco: ", cliente);
+      this.cliente = cliente;
+      console.log("Cliente da página: ", this.cliente);
     })
   }
-
-  novoCliente() {
-    
-  }
-
-  alteraCliente() {
-    const c = new Cliente();
-    c.nome = "João dos Santos";
-    c.cpf = "33333333";
-    c.cep = "01001000";
-    c.endereco = "Praça da Sé";
-    c.id = "";
-
-    let observable = this.clienteService.put("-NCwjKLy9NLcMVnH-umf", c);
-    observable.subscribe(c => {
-      console.log("Alterando um cliente: ", c)
-    })
-  }
-
-  excluirCliente() {
-    let observable = this.clienteService.delete("-NCx99-GwAbt6v9QZibj");
-    observable.subscribe(c => {
-      console.log("Cliente excluido: ", c)
-    })
-  }
-
+  
 }

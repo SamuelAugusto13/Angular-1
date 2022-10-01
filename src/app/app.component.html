@@ -5,11 +5,11 @@
 
   <div class="row">
     <div *ngFor="let cliente of listaCliente">
-      {{cliente.nome}} | {{cliente.cpf}} | {{cliente.cep}}
+      {{cliente.nome}} | {{cliente.cpf}} | {{cliente.cep}} | <a routerLink="/cadastro-cliente/{{cliente.id}}">Editar</a> | <a (click)="excluirCliente(cliente.id)">Excluir</a>
     </div>
   </div>
 
-  <button type="button" routerLink="/novo-cadastro-cliente">Abre um novo Cadastro</button>
+  <button type="button" routerLink="/cadastro-cliente">Abre um novo Cadastro</button>
 </div><br>
 
 <router-outlet></router-outlet>

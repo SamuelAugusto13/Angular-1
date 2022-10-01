@@ -1,3 +1,6 @@
+<h2>{{titulo}}</h2>
+
+
 <div>
     <form>
       <label for="nome">Nome: </label>
@@ -12,12 +15,16 @@
       <label for="logradouro">Logradouro: </label>
       <input type="text" id="enderecocliente" name="logradouro" [(ngModel)]="cliente.endereco"> <br>
   
-      <div *ngIf="!cliente.CPFValido()">
+      <!-- <div *ngIf="!cliente.CPFValido()">
         CPF Inválido
       </div>
   
       <div>
         <button type="button" (click)="salvarCliente()" value="Salvar" [disabled]="!cliente.CPFValido()">Salvar</button>
+      </div> -->
+
+      <div>
+        <button type="button" (click)="salvarCliente()" value="Salvar">Salvar</button>
       </div>
 
     </form>

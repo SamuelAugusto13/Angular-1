@@ -26,9 +26,17 @@ export class AppComponent implements OnInit{
       console.log(l);
 
       entries.forEach(entry => {
-        console.log(entry)
+        const c = entry[1];
+        c.id = entry[0];
         this.listaCliente.push(entry[1]);
       })
+    })
+  }
+
+  excluirCliente(id: string) {
+    let observable = this.clienteService.delete(id);
+    observable.subscribe(c => {
+      console.log("Excluindo: ", c)
     })
   }
 }
